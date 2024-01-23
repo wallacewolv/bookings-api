@@ -16,7 +16,7 @@ class AuthService {
     const newUser = new User({ name, email, password });
     newUser.password = bcrypt.hashSync(newUser.password, 10);
     this.repository.save(newUser);
-    return newUser;
+    return { name: newUser.name, email: newUser.email };
   }
 
   login(email, password) {
@@ -35,8 +35,9 @@ class AuthService {
       "segredo-do-jwt", { expiresIn: "1d" }
     );
 
-    return { token, user };
-  }
-}
+    return { token, user: { name: user.name, email: user.email } };
+  };
+};
+
 
 module.exports = AuthService;

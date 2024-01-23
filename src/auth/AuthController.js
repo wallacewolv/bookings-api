@@ -18,7 +18,18 @@ class AuthController {
   }
 
   login(request) {
+    const { email, password } = request.body;
 
+    if (!email || !password) {
+      return { codee: 400, body: { message: "email and password are required." } };
+    }
+
+    try {
+      const response = this.service.login(email, password);
+      return { code: 200, body: { message: "successfully logged in", response } };
+    } catch (error) {
+      return { code: 400, body: { message: error.message } };
+    }
   }
 }
 
