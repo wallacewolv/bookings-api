@@ -12,6 +12,7 @@
   "author": "Wallace <wallace_wolv@hotmail.com>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "fastify": "^4.25.2",
     "uuid": "^9.0.1"
   }
