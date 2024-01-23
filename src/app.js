@@ -37,4 +37,9 @@ app.post("/api/auth/register", (request, reply) => {
   reply.code(code).send(body);
 });
 
+app.post("/api/auth/login", (request, reply) => {
+  const { code, body } = authController.login(request);
+  reply.code(code).send(body);
+});
+
 module.exports = app;
