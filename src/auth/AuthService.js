@@ -1,5 +1,6 @@
 const User = require("./User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class AuthService {
   constructor(repository) {
@@ -28,6 +29,13 @@ class AuthService {
     if (!isSamePassword) {
       throw new Error("Wrong password.");
     }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      "segredo-do-jwt", { expiresIn: "1d" }
+    );
+
+    return { token, user };
   }
 }
 
