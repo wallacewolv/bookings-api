@@ -3,8 +3,9 @@ const { v4: uuidv4 } = require('uuid');
 // id, roomId, guestName, checkInDate, checkOutDate
 
 class Booking {
-  constructor(roomId, guestName, checkInDate, checkOutDate) {
-    this.id = uuidv4();
+  constructor({ id, user, roomId, guestName, checkInDate, checkOutDate }) {
+    this.id = id ?? uuidv4();
+    this.user = user;
     this.roomId = roomId;
     this.guestName = guestName;
     this.checkInDate = checkInDate;
