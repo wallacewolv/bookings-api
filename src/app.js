@@ -11,6 +11,11 @@ app.get("/hello", (request, reply) => {
   reply.send({ message: "Hello, World!" });
 });
 
+app.get("/api/bookings", (request, reply) => {
+  const bookings = bookingService.findAllBooking();
+  reply.send({bookings});
+});
+
 app.post("/api/bookings", (request, reply) => {
   const { roomId, guestName, checkInDate, checkOutDate } = request.body;
 
