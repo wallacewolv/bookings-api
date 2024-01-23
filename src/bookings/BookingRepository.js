@@ -11,3 +11,5 @@ class BookingRepository {
     this.bookings.push(booking);
   }
 }
+
+module.exports = BookingRepository;
