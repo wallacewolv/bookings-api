@@ -18,16 +18,29 @@ const userRepository = new UserRepository();
 const authService = new AuthService(userRepository);
 const authController = new AuthController(authService);
 
+const authenticatedRouteoptions = {
+  preHandler: (request, reply, done) => {
+    // Bearer seu-token....
+    const token = request.headers.authorization?.replace(/^Bearer /, "");
+    if (!token) reply.code(401).send({ message: "Unauthorized: token missing." });
+
+    const user = authService.verifyToken(token);
+    if (!user) reply.code(404).send({ message: "Unauthorized: invalid token." });
+    request.user = user;
+    done();
+  }
+};
+
 app.get("/hello", (request, reply) => {
   reply.send({ message: "Hello, World!" });
 });
 
-app.get("/api/bookings", (request, reply) => {
+app.get("/api/bookings", authenticatedRouteoptions, (request, reply) => {
   const { code, body } = bookingController.index(request);
   reply.code(code).send(body);
 });
 
-app.post("/api/bookings", (request, reply) => {
+app.post("/api/bookings", authenticatedRouteoptions, (request, reply) => {
   const { code, body } = bookingController.save(request);
   reply.code(code).send({ body });
 });
