@@ -37,7 +37,12 @@ class AuthService {
 
     return { token, user: { name: user.name, email: user.email } };
   };
-};
 
+  verifyToken(token) {
+    const decodedToken = jwt.verify(token, "segredo-do-jwt");
+    const user = this.repository.findByEmail(decodedToken.email)
+    return user;
+  }
+};
 
 module.exports = AuthService;
