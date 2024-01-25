@@ -8,6 +8,8 @@ const UserRepository = require('./auth/UserRepository');
 const AuthService = require('./auth/AuthService');
 const AuthController = require('./auth/AuthController');
 
+const db = require('./database');
+
 const app = fastify({ logger: true });
 
 const bookingRepository = new BookingRepository();
