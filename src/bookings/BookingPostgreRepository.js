@@ -7,23 +7,17 @@ class BookingPostgreRepository {
   }
 
   async findAll() {
-    const storeBookings = await this.db.manyOrNone(`
-      SELECT id, 
-      room_id AS "roomId", 
-      guest_name AS "guestName", 
-      check_in_date AS "checkInDate", 
-      check_out_date AS "checkOutDate,
-      user_id AS "UserId"
-      FROM Bookings
-    `);
-
-    return storeBookings.map(booking => new Booking(booking));
+    const storedBookings = await this.db.manyOrNone(
+      'SELECT id, room_id AS "roomId", guest_name AS "guestName", check_in_date AS "checkInDate", check_out_date AS "checkOutDate", user_id AS "userId" FROM Bookings'
+    );
+    return storedBookings.map(booking => new Booking(booking));
   }
 
   async create(booking) {
-    const insert = "INSERT INTO Bookings (id, room_id, guest_name, check_in_date, check_out_date, user_id)";
-    const values = "VALUES (${id}, ${roomId}, ${guestName}, ${checkInDate}, ${checkOutDate}, ${userId})"
-    await this.db.none(`${insert} ${values}`, booking);
+    await this.db.none(
+      "INSERT INTO Bookings (id, room_id, guest_name, check_in_date, check_out_date, user_id) VALUES (${id}, ${roomId}, ${guestName}, ${checkInDate}, ${checkOutDate}, ${userId})",
+      booking
+    );
   }
 }
 
